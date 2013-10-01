@@ -1,0 +1,57 @@
+<html>
+<head>
+	<link href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" rel="stylesheet">
+	<style>
+      body {
+        padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+      }
+      .alert{
+      	margin: 0px;
+      }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+      <!-- Main hero unit for a primary marketing message or call to action -->
+      <div class="hero-unit">
+        <h1>Hello, world!</h1>
+        <p>Chat with the group. </p>
+			<form method="POST" id="broadcast">
+				<input type="text" class="form-control" id="txt_input">
+				<br>
+				<input type="submit" value="Send" class="btn btn-primary" id="btn_submit">
+			</form>
+		</div>
+	</div>
+
+	<script src="http://localhost:8080/socket.io/socket.io.js"></script>
+	<script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
+	<script>
+	var socket = io.connect(':8080');
+	socket.on('news', function (data) {
+		console.log(data);
+		socket.emit('my other event', { my: 'data' });
+	});
+
+	$("#broadcast").submit(function(e){
+		$.ajax({
+			type:"POST",
+			url:'/broadcast',
+			dataType: 'json',
+			data:{"message":$("#txt_input").val()},
+			success: function(data){
+				$("#txt_input").val("");
+			}
+		});
+		return false;
+	});
+
+	socket.on("news", function (data) {
+		$("#broadcast").append("<div class='alert alert-info fade in'><p>"+data+"</p></div>");
+	});
+	</script>
+</body>
+</html>
