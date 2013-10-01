@@ -37,15 +37,19 @@
 	});
 
 	$("#broadcast").submit(function(e){
-		$.ajax({
-			type:"POST",
-			url:'/broadcast',
-			dataType: 'json',
-			data:{"message":$("#txt_input").val()},
-			success: function(data){
-				$("#txt_input").val("");
-			}
-		});
+		if($("#txt_input").val().length>0){
+			$.ajax({
+				type:"POST",
+				url:'/broadcast',
+				dataType: 'json',
+				data:{"message":$("#txt_input").val()},
+				success: function(data){
+					$("#txt_input").val("");
+				}
+			});
+		}else{
+			alert("Escribe algo");
+		}
 		return false;
 	});
 
