@@ -36,6 +36,10 @@ app.get('/', function (req, res) {
 	res.sendfile(__dirname + '/public/index.html');
 });
 
+app.get('/broadcast', function (req, res) {
+	res.render("broadcast");
+});
+
 app.post('/broadcast', function (req, res) {
 	io.sockets.emit("news", req.body.message);
 	return res.send(JSON.stringify("hola"));
