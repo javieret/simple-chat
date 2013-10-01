@@ -9,7 +9,7 @@ var express = require('express')
   , io = require('socket.io').listen(server)
   , util = require('util');
 
-server.listen(8080);
+server.listen(4444);
 
 // all environments
 app.set('port', process.env.PORT || 3000);
